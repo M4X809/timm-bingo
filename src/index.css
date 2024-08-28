@@ -1,4 +1,16 @@
-:root {
+/*
+ * File: index.css
+ * Project: timm-bingo
+ * File Created: 27.08.2024, 23:08:56
+ * 
+ * Last Modified: 28.08.2024, 00:08:79
+ * Modified By: MAX809
+ */
+
+
+ @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -65,4 +77,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
