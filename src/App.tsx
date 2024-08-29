@@ -3,7 +3,7 @@
  * Project: timm-bingo
  * File Created: 27.08.2024, 23:08:56
  * 
- * Last Modified: 29.08.2024, 18:08:04
+ * Last Modified: 29.08.2024, 22:08:28
  * Modified By: MAX809
  */
 
@@ -23,12 +23,19 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import { modals } from '@mantine/modals'
 
 interface BingoState {
+  currentBingo: boolean
+  setCurrentBingo: (bingo: boolean) => void
+
+
   currentGrid: gridElement[]
   setCurrentGrid: (grid: gridElement[]) => void
   toggleElement: (index: number) => void
 
   threeInARow: boolean
   checkThreeInARow: (grid: gridElement[]) => boolean
+
+  bingoCount: number
+  addBingoCount: () => void
 }
 
 interface gridElement {
@@ -99,6 +106,8 @@ const checkThreeInARow = (grid: gridElement[]): boolean => {
 const useBingoStore = create<BingoState>()(
   persist(
     (set, get) => ({
+      currentBingo: false,
+      setCurrentBingo: (bingo: boolean) => set({ currentBingo: bingo }),
       currentGrid: [],
       setCurrentGrid: (grid: gridElement[]) => set({ currentGrid: grid }),
       toggleElement: (index: number) => set({ currentGrid: get().currentGrid.map((el, i) => (i === index ? { ...el, checked: !el.checked } : el)) }),
@@ -108,12 +117,13 @@ const useBingoStore = create<BingoState>()(
         set({ threeInARow: result })
         return result
       },
-
+      bingoCount: 0,
+      addBingoCount: () => set({ bingoCount: get().bingoCount + 1 }),
     }),
     {
       name: 'bingo-storage', // name of item in the storage (must be unique)
       storage: createJSONStorage(() => localStorage), // (optional) by default the 'localStorage' is used
-      partialize: (state) => ({ currentGrid: state.currentGrid, threeInARow: state.threeInARow }),
+      partialize: (state) => ({ currentGrid: state.currentGrid, threeInARow: state.threeInARow, bingoCount: state.bingoCount, currentBingo: state.currentBingo }),
     },
   ),
 )
@@ -133,6 +143,8 @@ const data: string[] = [
   "DND Stuff",
   "Mein Eistee ist leer / fast leer",
   "Irgendwas mit TFT",
+  "Genervt von LOL (Nicht TFT)",
+  "Mein Internet macht Probleme",
 ]
 
 
@@ -147,6 +159,11 @@ const BingoGrid = () => {
 
   const checkThreeInARow = useBingoStore((state) => state.checkThreeInARow)
   const threeInARow = useBingoStore((state) => state.threeInARow)
+
+  const currentBingo = useBingoStore((state) => state.currentBingo)
+  const setCurrentBingo = useBingoStore((state) => state.setCurrentBingo)
+
+  const addBingoCount = useBingoStore((state) => state.addBingoCount)
 
 
   useEffect(() => {
@@ -164,7 +181,8 @@ const BingoGrid = () => {
   }, [currentGrid, setCurrentGrid, checkThreeInARow])
 
   useEffect(() => {
-    if (threeInARow) {
+    if (threeInARow && !currentBingo) {
+      addBingoCount()
       modals.open({
         title: 'Bingo!',
         children: (
@@ -190,10 +208,12 @@ const BingoGrid = () => {
           modals.closeAll()
         },
       })
+      setCurrentBingo(true)
+
     }
 
 
-  }, [threeInARow, setCurrentGrid])
+  }, [threeInARow, setCurrentGrid, currentBingo])
 
 
   const cols = currentGrid.map((data, index) => (
@@ -251,7 +271,14 @@ const BingoGrid = () => {
 
 
 function App() {
+  const state = useBingoStore((state) => state)
+  console.log(state)
+
+
   const setCurrentGrid = useBingoStore((state) => state.setCurrentGrid)
+  const bingoCount = useBingoStore((state) => state.bingoCount)
+
+  const setCurrentBingo = useBingoStore((state) => state.setCurrentBingo)
 
   return (
     <>
@@ -271,6 +298,10 @@ function App() {
               },
               onConfirm: () => {
                 setCurrentGrid([])
+                setTimeout(() => {
+                  setCurrentBingo(false)
+                }, 500)
+
                 modals.closeAll()
               },
               onCancel: () => {
@@ -286,6 +317,11 @@ function App() {
         >
           Reset Bingo Field
         </Button>
+        <Text c={"dimmed"} >
+          Bingo Count: {bingoCount}
+        </Text>
+
+
       </Group>
 
       <Center >
@@ -332,6 +368,11 @@ function App() {
         </ActionIcon>
       </Affix>
 
+      {/* <Affix left={15} top={15}>
+        <Text c={"dimmed"} >
+          Bingo Count: {bingoCount}
+        </Text>
+      </Affix> */}
 
     </>
   )
