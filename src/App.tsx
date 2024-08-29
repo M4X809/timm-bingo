@@ -3,17 +3,24 @@
  * Project: timm-bingo
  * File Created: 27.08.2024, 23:08:56
  * 
- * Last Modified: 28.08.2024, 11:08:22
+ * Last Modified: 29.08.2024, 11:08:39
  * Modified By: MAX809
  */
 
 
-import { Box, Center, Grid, Text } from '@mantine/core'
+import { Affix, Box, Button, Center, Grid, Group, Text } from '@mantine/core'
 import { useEffect } from 'react'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faWarning } from '@fortawesome/pro-duotone-svg-icons'
+
+import pkg from '../package.json'
+
 // import './App.css'
 
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { modals } from '@mantine/modals'
 
 interface BingoState {
   currentGrid: gridElement[]
@@ -156,6 +163,41 @@ const BingoGrid = () => {
 
   }, [currentGrid, setCurrentGrid, checkThreeInARow])
 
+  useEffect(() => {
+    if (threeInARow) {
+      modals.open({
+        title: 'Bingo!',
+        children: (
+          <>
+            <Text >
+              Du hast 3 in einer Reihe und somit gewonnen!
+            </Text>
+            <Button
+              mt={15}
+              fullWidth
+              variant='gradient'
+              gradient={{ from: "red", to: "orange" }}
+              onClick={() => {
+                setCurrentGrid([])
+                modals.closeAll()
+              }}>
+              Reset Bingo Field!
+            </Button>
+          </>
+        ),
+        centered: true,
+        onClose: () => {
+          modals.closeAll()
+        },
+      })
+    }
+
+
+  }, [threeInARow, setCurrentGrid])
+
+
+
+
   // console.log(currentGrid)
 
 
@@ -168,23 +210,29 @@ const BingoGrid = () => {
   const cols = currentGrid.map((data, index) => (
     <Grid.Col span={4} key={data.title}
 
-      onClick={() => toggleElement(index)}
+      onClick={() => {
+        if (!threeInARow) {
+          toggleElement(index)
+        }
+      }}
       style={{
-        cursor: 'pointer',
+        cursor: threeInARow ? 'not-allowed' : 'pointer',
       }}
     >
       <Center>
         <Box
+          bg={data.checked ? '#ff6000' : 'gray.8'}
           style={(theme) => ({
             userSelect: 'none',
             height: '100%',
             width: '100%', // Ensure the box is responsive
             aspectRatio: '1 / 1', // This maintains a square shape
-            backgroundColor: data.checked ? theme.colors.blue[6] : theme.colors.gray[8],
+            // backgroundColor: data.checked ? theme.colors.blue[6] : theme.colors.gray[8],
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: theme.white,
+            // color: theme.white,
+            color: data.checked ? 'black' : 'white',
             borderRadius: theme.radius.sm,
             textAlign: 'center',
           })}
@@ -201,7 +249,7 @@ const BingoGrid = () => {
 
   return (
 
-    <Grid gutter="sm" h={"60vh"} w={"60vw"} pt={50}>
+    <Grid gutter="sm" h={"50dvh"} w={"50dvw"} pt={25} >
       {cols}
     </Grid>
 
@@ -213,16 +261,63 @@ const BingoGrid = () => {
 
 
 function App() {
-
-  // const threeInARow = useBingoStore((state) => state.threeInARow)
+  const setCurrentGrid = useBingoStore((state) => state.setCurrentGrid)
 
   return (
     <>
 
-      <Center >
+      <Group justify='center' pt={25}>
+        <Button variant='gradient' gradient={{ from: "red", to: "orange" }}
+          leftSection={
+            <FontAwesomeIcon icon={faWarning} fontSize={20} />
+          }
+          onClick={() => {
+            modals.openConfirmModal({
+              title: 'Reset Bingo Field',
+              children: 'Are you sure you want to reset the Bingo Field?',
+              labels: {
+                confirm: 'Reset',
+                cancel: 'Cancel',
+              },
+              onConfirm: () => {
+                setCurrentGrid([])
+                modals.closeAll()
+              },
+              onCancel: () => {
+                modals.closeAll()
+              },
+              confirmProps: {
+                variant: "gradient",
+                gradient: { from: "red", to: "orange" },
 
+              }
+            })
+          }}
+        >
+          Reset Bingo Field
+        </Button>
+      </Group>
+
+      <Center >
         <BingoGrid />
       </Center>
+
+      <Affix p={15}>
+        <Text ta={"end"} c={"dimmed"}>
+          v{pkg.version}
+          <br />
+          Made by <a href="https://github.com/MAX809" target="_blank" rel="noreferrer">MAX809</a> with <FontAwesomeIcon icon={faHeart} color={"red"} />
+
+
+        </Text>
+      </Affix>
+      <Affix p={15} bottom={10} left={10} >
+        <Text c={"dimmed"} >
+          Wenn beim Klicken nichts passiert, den Dark reader ausschalten.
+        </Text>
+      </Affix>
+
+
     </>
   )
 }

@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "module": "server.ts",
+  "type": "module",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/bun": "latest",
+    "@types/express": "^4.17.21",
+    "rollup": "^4.21.1",
+    "rollup-plugin-cleanup": "^3.2.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "express-static-gzip": "^2.1.7"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "prod": "bun run server.js"
+  }
+}
