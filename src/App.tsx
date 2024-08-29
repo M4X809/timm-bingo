@@ -3,16 +3,16 @@
  * Project: timm-bingo
  * File Created: 27.08.2024, 23:08:56
  * 
- * Last Modified: 29.08.2024, 11:08:39
+ * Last Modified: 29.08.2024, 18:08:04
  * Modified By: MAX809
  */
 
 
-import { Affix, Box, Button, Center, Grid, Group, Text } from '@mantine/core'
+import { ActionIcon, Affix, Box, Button, Center, Grid, Group, Text } from '@mantine/core'
 import { useEffect } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faWarning } from '@fortawesome/pro-duotone-svg-icons'
+import { faHeart, faQuestion, faWarning } from '@fortawesome/pro-duotone-svg-icons'
 
 import pkg from '../package.json'
 
@@ -117,29 +117,29 @@ const useBingoStore = create<BingoState>()(
     },
   ),
 )
-
+const data: string[] = [
+  "Ich habe Essen",
+  "Ich habe ein neues Magic Deck",
+  "Bin 'Kurz' Weg",
+  "Neue Mangas",
+  "Wird gerufen => JAAAA",
+  "Garten Arbeit",
+  "Nach OLB",
+  "Redet und nicht entmutet",
+  "Meine Grafik karte macht Probleme",
+  "Vanguard Probleme",
+  "Neue Würfel",
+  "Ich mache ein neues Magic Deck",
+  "DND Stuff",
+  "Mein Eistee ist leer / fast leer",
+  "Irgendwas mit TFT",
+]
 
 
 
 
 const BingoGrid = () => {
-  const data: string[] = [
-    "Ich habe Essen",
-    "Ich habe ein neues Magic Deck",
-    "Bin 'Kurz' Weg",
-    "Neue Mangas",
-    "Wird gerufen => JAAAA",
-    "Garten Arbeit",
-    "Nach OLB",
-    "Redet und nicht entmutet",
-    "Meine Grafik karte macht Probleme",
-    "Vanguard Probleme",
-    "Neue Würfel",
-    "Ich mache ein neues Magic Deck",
-    "DND Stuff",
-    "Mein Eistee ist leer / fast leer",
-    "Irgendwas mit TFT",
-  ]
+
 
   const currentGrid = useBingoStore((state) => state.currentGrid)
   const setCurrentGrid = useBingoStore((state) => state.setCurrentGrid)
@@ -196,17 +196,6 @@ const BingoGrid = () => {
   }, [threeInARow, setCurrentGrid])
 
 
-
-
-  // console.log(currentGrid)
-
-
-
-  // for (const [key, value] of Object.entries(currentGrid)) {
-  //   console.log(key, value)
-  // }
-
-
   const cols = currentGrid.map((data, index) => (
     <Grid.Col span={4} key={data.title}
 
@@ -222,6 +211,7 @@ const BingoGrid = () => {
       <Center>
         <Box
           bg={data.checked ? '#ff6000' : 'gray.8'}
+
           style={(theme) => ({
             userSelect: 'none',
             height: '100%',
@@ -237,7 +227,7 @@ const BingoGrid = () => {
             textAlign: 'center',
           })}
         >
-          <Text p={15}>
+          <Text p={15} fw={data.checked ? 900 : 400}>
             {data.title.trim()}
           </Text>
         </Box>
@@ -311,10 +301,35 @@ function App() {
 
         </Text>
       </Affix>
-      <Affix p={15} bottom={10} left={10} >
+      <Affix p={15} left={10} >
         <Text c={"dimmed"} >
           Wenn beim Klicken nichts passiert, den Dark reader ausschalten.
         </Text>
+      </Affix>
+      <Affix p={15} right={15} top={0} >
+        <ActionIcon
+          onClick={() => {
+            modals.open({
+              title: 'Mögliche Bingo Felder',
+              children: (
+                <>
+                  {data.map((el, index) => {
+                    return (
+                      <Text key={el} >
+                        {index + 1}. {el}
+                      </Text>
+                    )
+                  })}
+                </>
+
+
+              )
+            })
+          }}
+
+        >
+          <FontAwesomeIcon icon={faQuestion} />
+        </ActionIcon>
       </Affix>
 
 
