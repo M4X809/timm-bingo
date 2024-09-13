@@ -3,7 +3,7 @@
  * Project: timm-bingo
  * File Created: 27.08.2024, 23:08:57
  *
- * Last Modified: 29.08.2024, 10:08:72
+ * Last Modified: 13.09.2024, 20:09:29
  * Modified By: MAX809
  */
 
@@ -20,7 +20,7 @@ export default defineConfig(() => {
 		},
 
 		build: {
-			outDir: "server/build",
+			outDir: "./out", 
 
 			emptyOutDir: true,
 			manifest: true,
@@ -32,7 +32,7 @@ export default defineConfig(() => {
 
 			chunkSizeWarningLimit: 1200,
 			copyPublicDir: true,
-			// sourcemap: true,
+			sourcemap: true,
 		},
 		plugins: [
 			react(),

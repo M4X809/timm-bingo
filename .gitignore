@@ -27,3 +27,4 @@ dist-ssr
 *.tar
 build
 */build
+out
