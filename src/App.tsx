@@ -3,7 +3,7 @@
  * Project: timm-bingo
  * File Created: 27.08.2024, 23:08:56
  * 
- * Last Modified: 29.08.2024, 22:08:28
+ * Last Modified: 13.09.2024, 20:09:77
  * Modified By: MAX809
  */
 
@@ -145,6 +145,7 @@ const data: string[] = [
   "Irgendwas mit TFT",
   "Genervt von LOL (Nicht TFT)",
   "Mein Internet macht Probleme",
+  "Laute Essen und Trinken geräusche machen.",
 ]
 
 
@@ -180,6 +181,7 @@ const BingoGrid = () => {
 
   }, [currentGrid, setCurrentGrid, checkThreeInARow])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <> 
   useEffect(() => {
     if (threeInARow && !currentBingo) {
       addBingoCount()
