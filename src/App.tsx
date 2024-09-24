@@ -146,6 +146,7 @@ const data: string[] = [
   "Genervt von LOL (Nicht TFT)",
   "Mein Internet macht Probleme",
   "Laute Essen und Trinken geräusche machen.",
+  "Ich habe geld für Warhammer 40k außgegeben.",
 ]
 
 
