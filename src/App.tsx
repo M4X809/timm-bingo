@@ -305,18 +305,6 @@ function App() {
 				<BingoGrid />
 			</Center>
 
-			<Box p={15} className="absolute bottom-0 right-0">
-				<Text ta={"end"} c={"dimmed"}>
-					v{pkg.version}
-					<br />
-					Made by{" "}
-					<a href="https://github.com/M4X809" target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
-						M4X809
-					</a>{" "}
-					with <FontAwesomeIcon icon={faHeart} color={"red"} />
-				</Text>
-			</Box>
-
 			<Affix p={15} right={15} top={0}>
 				<ActionIcon
 					onClick={() => {
@@ -339,6 +327,17 @@ function App() {
 				>
 					<FontAwesomeIcon icon={faQuestion} />
 				</ActionIcon>
+			</Affix>
+			<Affix p={15} right={15} bottom={15}>
+				<Text ta={"end"} c={"dimmed"}>
+					v{pkg.version}
+					<br />
+					Made by{" "}
+					<a href="https://github.com/M4X809" target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
+						M4X809
+					</a>{" "}
+					with <FontAwesomeIcon icon={faHeart} color={"red"} />
+				</Text>
 			</Affix>
 
 			{/* <Affix left={15} top={15}>
