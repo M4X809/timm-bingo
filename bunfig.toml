@@ -2,8 +2,8 @@
 
 [install.scopes]
 # registry as string
-"@awesome.me" = { token = "$npm_token", url = "https://npm.fontawesome.com" }
-"@fortawesome" = { token = "$npm_token", url = "https://npm.fontawesome.com" }
+"@awesome.me" = { token = "$NPM_FONT_AWESOME", url = "https://npm.fontawesome.com" }
+"@fortawesome" = { token = "$NPM_FONT_AWESOME", url = "https://npm.fontawesome.com" }
 
 [install]
 # set default registry as a string

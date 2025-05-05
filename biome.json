@@ -34,6 +34,16 @@
 				"noBannedTypes": "off"
 			}
 		},
-		"ignore": ["node_modules/**/*", "biome.json", "build/**/*", "**/.vscode/**/*", "out/**/*", "dist/**/*", "*.code-workspace", "settings.json", "*.js"]
+		"ignore": [
+			"node_modules/**/*",
+			"biome.json",
+			"build/**/*",
+			"**/.vscode/**/*",
+			"out/**/*",
+			"dist/**/*",
+			"*.code-workspace",
+			"settings.json",
+			"*.js"
+		]
 	}
 }

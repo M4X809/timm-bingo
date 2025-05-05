@@ -16,7 +16,6 @@ import typescript from "@rollup/plugin-typescript";
 import cleanup from "rollup-plugin-cleanup";
 import json from "@rollup/plugin-json";
 
-
 const config = defineConfig({
 	input: ["server.ts"],
 	output: [
