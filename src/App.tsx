@@ -310,8 +310,8 @@ function App() {
 					v{pkg.version}
 					<br />
 					Made by{" "}
-					<a href="https://github.com/MAX809" target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
-						MAX809
+					<a href="https://github.com/M4X809" target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
+						M4X809
 					</a>{" "}
 					with <FontAwesomeIcon icon={faHeart} color={"red"} />
 				</Text>
